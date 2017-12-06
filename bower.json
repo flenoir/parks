@@ -1,0 +1,24 @@
+{
+  "name": "parks",
+  "authors": [
+    "fabien lenoir <flenoir@gmail.com>"
+  ],
+  "description": "parkings app",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chartist-plugin-fill-donut": "^0.1.4",
+    "chartist": "^0.11.0"
+  },
+  "resolutions": {
+    "chartist": "~0.10.0"
+  }
+}

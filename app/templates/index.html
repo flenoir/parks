@@ -1,0 +1,95 @@
+<!-- index.html-->
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<div class="container-fluid">
+
+<div class="text-center"> <h2>Disponibilité des parkings <img src="https://www.connecthings.com/wp-content/uploads/2016/05/mpt-4-1000x480.jpg" width="300" padding-right="100"></h2>
+</div> 
+
+<div class="row">
+
+  {% for park in all_parks %}
+  <div class="col-md-4">
+  <article class="text-center ct-chart" id="{{ park.name }}">
+  <h3 style="height:60px;">{{ park.fullname }} est {{ park.status }}</h3>
+    <script>
+      var chart = new Chartist.Pie('#{{ park.name }}', {
+        series: [{{park.free}}, {{park.total}}-{{park.free}}]
+      }, {
+        donut: true,
+        donutWidth: 35,
+        donutSolid: true,
+        startAngle: 0,
+        total: {{park.total}},
+        showLabel: false,
+        plugins: [
+            Chartist.plugins.fillDonut({
+                items: [{
+                    content: '<h3 style="margin-top:135px;">{{park.free}}<span class="small"></span></h3>',
+                    position: 'center'
+                }]
+            })
+        ]
+      });
+
+      chart.on('draw', function(data) {
+        if(data.type === 'slice') {
+          // Get the total path length in order to use for dash array animation
+          var pathLength = data.element._node.getTotalLength();
+          console.dir(data);
+          // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+          data.element.attr({
+            'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+          });
+      
+          // Create animation definition while also assigning an ID to the animation for later sync usage
+          var animationDefinition = {
+            'stroke-dashoffset': {
+              id: 'anim' + data.index,
+              dur: 1000,
+              from: -pathLength + 'px',
+              to:  '0px',
+              easing: Chartist.Svg.Easing.easeOutQuint,
+              // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+              fill: 'freeze'
+            }
+          };
+      
+          // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+          if(data.index !== 0) {
+            animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+          }
+      
+          // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+          data.element.attr({
+            'stroke-dashoffset': -pathLength + 'px'
+          });
+      
+          // We can't use guided mode as the animations need to rely on setting begin manually
+          // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+          data.element.animate(animationDefinition, false);
+        }
+      });
+      
+      // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+      chart.on('created', function() {
+        if(window.__anim21278907124) {
+          clearTimeout(window.__anim21278907124);
+          window.__anim21278907124 = null;
+        }
+        window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+      });
+      
+    </script>
+
+  <p style="height:50px;">A {{ park.date }}, il y a {{ park.free }} places disponibles sur {{ park.total }} places.</p>
+  </article>
+  </div>
+  {% endfor %}
+
+</div>
+
+  
+</div>
+{% endblock %}

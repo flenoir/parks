@@ -1,0 +1,43 @@
+<!-- base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta http-equiv="refresh" content="60">
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../../bower_components/chartist/dist/chartist.min.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/chartist/dist/chartist.min.css') }}">
+    <script src="{{ url_for('static', filename='bower_components/chartist/dist/chartist.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/chartist-plugin-fill-donut/dist/chartist-plugin-fill-donut.js') }}"></script>
+    <style>
+        ct-series-a .ct-area, .ct-series-a .ct-slice-donut-solid, .ct-series-a .ct-slice-pie {
+          fill: #77f04f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="/">Home</a></li>
+            <li role="presentation"><a href="/about">About</a></li>
+            <li role="presentation"><a href="http://www.fabienLenoir.fr" target="_blank">More About Mek</a></li>
+          </ul>
+        </nav>
+      </div>
+      {% block body %}
+      {% endblock %}
+      <footer class="footer">
+        <p>© 2017 Fabien Lenoir</p>
+      </footer>
+    </div> <!-- /container -->
+    <!-- <script src="../../bower_components/chartist/dist/chartist.min.js"></script> -->
+    
+    <!-- <script src="../../bower_components/chartist-plugin-fill-donut/dist/chartist-plugin-fill-donut.js"></script> -->
+  </body>
+</html>
