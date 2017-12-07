@@ -7,10 +7,10 @@
 <div class="text-center"> <h2>Disponibilité des parkings <img src="https://www.connecthings.com/wp-content/uploads/2016/05/mpt-4-1000x480.jpg" width="300" padding-right="100"></h2>
 </div> 
 
-<div class="row">
+<div class="row no-gutters">
 
   {% for park in all_parks %}
-  <div class="col-md-4">
+  <div class="col-sm-12 col-md-4">
   <article class="text-center ct-char" id="{{ park.name }}" style="margin-bottom: 10px; color: #555;border: 1px solid rgba(168, 167, 167, 0.473);border-radius: 4px;">
   <h3 style="height:60px;">{{ park.fullname }} est {{ park.status }}</h3>
     <script>
