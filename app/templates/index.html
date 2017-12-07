@@ -11,7 +11,7 @@
 
   {% for park in all_parks %}
   <div class="col-md-4">
-  <article class="text-center ct-chart" id="{{ park.name }}">
+  <article class="text-center ct-char" id="{{ park.name }}" style="margin-bottom: 10px; color: #555;border: 1px solid rgba(168, 167, 167, 0.473);border-radius: 4px;">
   <h3 style="height:60px;">{{ park.fullname }} est {{ park.status }}</h3>
     <script>
       var chart = new Chartist.Pie('#{{ park.name }}', {
@@ -26,7 +26,7 @@
         plugins: [
             Chartist.plugins.fillDonut({
                 items: [{
-                    content: '<h3 style="margin-top:135px;">{{park.free}}<span class="small"></span></h3>',
+                    content: '<h3 style="margin-top:150px;">{{park.free}}<span class="small"></span></h3>',
                     position: 'center'
                 }]
             })
