@@ -18,6 +18,7 @@ def extract_data():
     import json
     import xml.etree.ElementTree as ET
     from urllib.request import urlopen
+    import re
 
     # on enverra les xml dans un liste qu'on initialise
     parking_datas = []
@@ -61,13 +62,16 @@ def extract_data():
         # on instancie chaque parking avec son nom
         parks['Name'] = Parking(**parks)
         Date = parks['Name'].DateTime
+        CleanedDate = re.search('(?<=T)([0-9][0-9][:][0-9][0-9])', Date)
         current_status = parks['Name'].Status
 
         if current_status == "Open":
             current_status = current_status.replace("Open", "ouvert")
+        elif current_status == "Full":
+            current_status = current_status.replace("Full", "saturé")
         else:
             current_status = current_status.replace("Closed", "fermé")
-        all_parks.append({'name': parks['Name'].Name, "status": current_status, "date": Date[11:-3],
+        all_parks.append({'name': parks['Name'].Name, "status": current_status, "date": CleanedDate.group(0),
                           'total': parks['Name'].Total.lstrip("0"), 'free': parks['Name'].Free.lstrip("0"), 'fullname': parks['fullName']})
 
     return render_template('index.html', all_parks=all_parks)
